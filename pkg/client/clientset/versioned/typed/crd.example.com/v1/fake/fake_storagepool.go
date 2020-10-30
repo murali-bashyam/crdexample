@@ -19,6 +19,8 @@ limitations under the License.
 package fake
 
 import (
+	"context"
+
 	crdexamplecomv1 "github.com/murali-bashyam/crdexample/pkg/apis/crd.example.com/v1"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	labels "k8s.io/apimachinery/pkg/labels"
@@ -39,7 +41,7 @@ var storagepoolsResource = schema.GroupVersionResource{Group: "crd.example.com",
 var storagepoolsKind = schema.GroupVersionKind{Group: "crd.example.com", Version: "v1", Kind: "StoragePool"}
 
 // Get takes name of the storagePool, and returns the corresponding storagePool object, and an error if there is any.
-func (c *FakeStoragePools) Get(name string, options v1.GetOptions) (result *crdexamplecomv1.StoragePool, err error) {
+func (c *FakeStoragePools) Get(ctx context.Context, name string, options v1.GetOptions) (result *crdexamplecomv1.StoragePool, err error) {
 	obj, err := c.Fake.
 		Invokes(testing.NewGetAction(storagepoolsResource, c.ns, name), &crdexamplecomv1.StoragePool{})
 
@@ -50,7 +52,7 @@ func (c *FakeStoragePools) Get(name string, options v1.GetOptions) (result *crde
 }
 
 // List takes label and field selectors, and returns the list of StoragePools that match those selectors.
-func (c *FakeStoragePools) List(opts v1.ListOptions) (result *crdexamplecomv1.StoragePoolList, err error) {
+func (c *FakeStoragePools) List(ctx context.Context, opts v1.ListOptions) (result *crdexamplecomv1.StoragePoolList, err error) {
 	obj, err := c.Fake.
 		Invokes(testing.NewListAction(storagepoolsResource, storagepoolsKind, c.ns, opts), &crdexamplecomv1.StoragePoolList{})
 
@@ -72,14 +74,14 @@ func (c *FakeStoragePools) List(opts v1.ListOptions) (result *crdexamplecomv1.St
 }
 
 // Watch returns a watch.Interface that watches the requested storagePools.
-func (c *FakeStoragePools) Watch(opts v1.ListOptions) (watch.Interface, error) {
+func (c *FakeStoragePools) Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error) {
 	return c.Fake.
 		InvokesWatch(testing.NewWatchAction(storagepoolsResource, c.ns, opts))
 
 }
 
 // Create takes the representation of a storagePool and creates it.  Returns the server's representation of the storagePool, and an error, if there is any.
-func (c *FakeStoragePools) Create(storagePool *crdexamplecomv1.StoragePool) (result *crdexamplecomv1.StoragePool, err error) {
+func (c *FakeStoragePools) Create(ctx context.Context, storagePool *crdexamplecomv1.StoragePool, opts v1.CreateOptions) (result *crdexamplecomv1.StoragePool, err error) {
 	obj, err := c.Fake.
 		Invokes(testing.NewCreateAction(storagepoolsResource, c.ns, storagePool), &crdexamplecomv1.StoragePool{})
 
@@ -90,7 +92,7 @@ func (c *FakeStoragePools) Create(storagePool *crdexamplecomv1.StoragePool) (res
 }
 
 // Update takes the representation of a storagePool and updates it. Returns the server's representation of the storagePool, and an error, if there is any.
-func (c *FakeStoragePools) Update(storagePool *crdexamplecomv1.StoragePool) (result *crdexamplecomv1.StoragePool, err error) {
+func (c *FakeStoragePools) Update(ctx context.Context, storagePool *crdexamplecomv1.StoragePool, opts v1.UpdateOptions) (result *crdexamplecomv1.StoragePool, err error) {
 	obj, err := c.Fake.
 		Invokes(testing.NewUpdateAction(storagepoolsResource, c.ns, storagePool), &crdexamplecomv1.StoragePool{})
 
@@ -101,7 +103,7 @@ func (c *FakeStoragePools) Update(storagePool *crdexamplecomv1.StoragePool) (res
 }
 
 // Delete takes name of the storagePool and deletes it. Returns an error if one occurs.
-func (c *FakeStoragePools) Delete(name string, options *v1.DeleteOptions) error {
+func (c *FakeStoragePools) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
 	_, err := c.Fake.
 		Invokes(testing.NewDeleteAction(storagepoolsResource, c.ns, name), &crdexamplecomv1.StoragePool{})
 
@@ -109,15 +111,15 @@ func (c *FakeStoragePools) Delete(name string, options *v1.DeleteOptions) error 
 }
 
 // DeleteCollection deletes a collection of objects.
-func (c *FakeStoragePools) DeleteCollection(options *v1.DeleteOptions, listOptions v1.ListOptions) error {
-	action := testing.NewDeleteCollectionAction(storagepoolsResource, c.ns, listOptions)
+func (c *FakeStoragePools) DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error {
+	action := testing.NewDeleteCollectionAction(storagepoolsResource, c.ns, listOpts)
 
 	_, err := c.Fake.Invokes(action, &crdexamplecomv1.StoragePoolList{})
 	return err
 }
 
 // Patch applies the patch and returns the patched storagePool.
-func (c *FakeStoragePools) Patch(name string, pt types.PatchType, data []byte, subresources ...string) (result *crdexamplecomv1.StoragePool, err error) {
+func (c *FakeStoragePools) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *crdexamplecomv1.StoragePool, err error) {
 	obj, err := c.Fake.
 		Invokes(testing.NewPatchSubresourceAction(storagepoolsResource, c.ns, name, pt, data, subresources...), &crdexamplecomv1.StoragePool{})
 

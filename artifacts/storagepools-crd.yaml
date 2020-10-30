@@ -10,7 +10,8 @@ spec:
     plural: storagepools
   scope: Namespaced
   version: v1
-  openAPIV3Schema:
+  validation:
+    openAPIV3Schema:
       properties:
         spec:
           properties:

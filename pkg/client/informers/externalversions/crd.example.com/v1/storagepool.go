@@ -19,6 +19,7 @@ limitations under the License.
 package v1
 
 import (
+	"context"
 	time "time"
 
 	crdexamplecomv1 "github.com/murali-bashyam/crdexample/pkg/apis/crd.example.com/v1"
@@ -61,13 +62,13 @@ func NewFilteredStoragePoolInformer(client versioned.Interface, namespace string
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.CrdV1().StoragePools(namespace).List(options)
+				return client.CrdV1().StoragePools(namespace).List(context.TODO(), options)
 			},
 			WatchFunc: func(options metav1.ListOptions) (watch.Interface, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.CrdV1().StoragePools(namespace).Watch(options)
+				return client.CrdV1().StoragePools(namespace).Watch(context.TODO(), options)
 			},
 		},
 		&crdexamplecomv1.StoragePool{},

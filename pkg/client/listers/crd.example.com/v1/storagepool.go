@@ -26,8 +26,10 @@ import (
 )
 
 // StoragePoolLister helps list StoragePools.
+// All objects returned here must be treated as read-only.
 type StoragePoolLister interface {
 	// List lists all StoragePools in the indexer.
+	// Objects returned here must be treated as read-only.
 	List(selector labels.Selector) (ret []*v1.StoragePool, err error)
 	// StoragePools returns an object that can list and get StoragePools.
 	StoragePools(namespace string) StoragePoolNamespaceLister
@@ -58,10 +60,13 @@ func (s *storagePoolLister) StoragePools(namespace string) StoragePoolNamespaceL
 }
 
 // StoragePoolNamespaceLister helps list and get StoragePools.
+// All objects returned here must be treated as read-only.
 type StoragePoolNamespaceLister interface {
 	// List lists all StoragePools in the indexer for a given namespace.
+	// Objects returned here must be treated as read-only.
 	List(selector labels.Selector) (ret []*v1.StoragePool, err error)
 	// Get retrieves the StoragePool from the indexer for a given namespace and name.
+	// Objects returned here must be treated as read-only.
 	Get(name string) (*v1.StoragePool, error)
 	StoragePoolNamespaceListerExpansion
 }

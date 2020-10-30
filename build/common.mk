@@ -6,15 +6,19 @@ HOST_PLATFORM := $(GOHOSTOS)_$(GOHOSTARCH)
 
 # include the common make file
 COMMON_SELF_DIR := $(dir $(lastword $(MAKEFILE_LIST)))
+
 ifeq ($(origin ROOT_DIR),undefined)
-ROOT_DIR := $(abspath $(shell cd $(COMMON_SELF_DIR)/../.. && pwd -P))
+ROOT_DIR := $(abspath $(shell cd $(COMMON_SELF_DIR)/.. && pwd -P))
 endif
+
 ifeq ($(origin OUTPUT_DIR),undefined)
-OUTPUT_DIR := $(ROOT_DIR)/_output
+OUTPUT_DIR := $(ROOT_DIR)/bin
 endif
+
 ifeq ($(origin WORK_DIR), undefined)
-WORK_DIR := $(ROOT_DIR)/.work
+WORK_DIR := $(ROOT_DIR)
 endif
+
 ifeq ($(origin CACHE_DIR), undefined)
 CACHE_DIR := $(ROOT_DIR)/.cache
 endif
@@ -25,3 +29,8 @@ TOOLS_HOST_DIR := $(TOOLS_DIR)/$(HOST_PLATFORM)
 ifeq ($(origin HOSTNAME), undefined)
 HOSTNAME := $(shell hostname)
 endif
+
+define \n
+
+
+endef

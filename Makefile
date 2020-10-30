@@ -23,7 +23,6 @@ include build/golang.mk
 
 build.version:
 	@mkdir -p $(OUTPUT_DIR)
-	@echo "$(VERSION)" > $(OUTPUT_DIR)/version
 
 build.common: build.version mod.check
 	@$(MAKE) go.init
@@ -48,7 +47,7 @@ mod.update: go.mod.update ## Update all go modules.
 
 clean: ## Remove all files that are created by building.
 	@$(MAKE) go.mod.clean
-	@rm -fr $(OUTPUT_DIR) $(WORK_DIR)
+	@rm -fr $(OUTPUT_DIR) 
 
 distclean: clean ## Remove all files that are created by building or configuring.
 	@rm -rf $(CACHE_DIR)
