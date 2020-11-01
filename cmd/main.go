@@ -12,6 +12,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/tools/clientcmd"
+	"k8s.io/client-go/util/retry"
 )
 
 func PrintPod(pod *apiv1.Pod) {
@@ -37,12 +38,18 @@ func createOrUpdatePool(c *crdclientset.Clientset, poolname string, quota int, d
 			fmt.Printf("Storage pool created %s \n", poolname)
 		}
 	} else {
-		pool.PoolSpec.Quota = quota
-		pool.PoolSpec.FailureDomain = domain
-		_, err = c.CrdV1().StoragePools("default").Update(context.TODO(), pool, metav1.UpdateOptions{})
-		if err == nil {
-			fmt.Printf("Storage pool updated %s \n", poolname)
-		}
+		err = retry.RetryOnConflict(retry.DefaultRetry, func() error {
+			pool, err = c.CrdV1().StoragePools("default").Get(context.TODO(), poolname, metav1.GetOptions{})
+			if err == nil {
+				pool.PoolSpec.Quota = quota
+				pool.PoolSpec.FailureDomain = domain
+				_, err = c.CrdV1().StoragePools("default").Update(context.TODO(), pool, metav1.UpdateOptions{})
+				if err == nil {
+					fmt.Printf("Storage pool updated %s \n", poolname)
+				}
+			}
+			return err
+		})
 	}
 
 	return err
