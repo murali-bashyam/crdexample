@@ -31,6 +31,11 @@ build.common: build.version mod.check
 build: build.common ## Build source code for host platform.
 	@$(MAKE) go.build
 
+build.image: build
+	@cp $(OUTPUT_DIR)/cmd image
+	@sudo docker build -t $(BUILD_REGISTRY)/$(CRDEXAMPLE_IMG):$(CRDEXAMPLE_VERSION) image
+	@rm -f image/cmd
+
 vet: ## Runs lint checks on go sources.
 	@$(MAKE) go.init
 	@$(MAKE) go.vet

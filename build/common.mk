@@ -30,6 +30,10 @@ ifeq ($(origin HOSTNAME), undefined)
 HOSTNAME := $(shell hostname)
 endif
 
+CRDEXAMPLE_IMG := crdclient
+CRDEXAMPLE_VERSION := v1.0
+BUILD_REGISTRY := muralibashyam
+
 define \n
 
 
