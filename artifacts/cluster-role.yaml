@@ -1,0 +1,27 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: crdexample-cluster-mgmt
+  labels:
+   appname: crdexample
+rules:
+- apiGroups:
+  - "crd.example.com"
+  resources:
+   - storagepools
+  verbs:
+   - get
+   - list
+   - watch
+   - patch
+   - create
+   - update
+   - delete
+- apiGroups:
+  - ""
+  resources:
+   - pods
+  verbs:
+   - get
+   - list
+   - watch

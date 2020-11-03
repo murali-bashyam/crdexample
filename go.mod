@@ -10,3 +10,5 @@ require (
 	k8s.io/client-go v0.19.0
 	k8s.io/utils v0.0.0-20201027101359-01387209bb0d // indirect
 )
+
+require k8s.io/code-generator v0.19.4-rc.0
